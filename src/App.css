@@ -5,3 +5,71 @@
 .App-main {
   text-align: center;
 }
+
+
+.Order-header, .App-header {
+  display: flex;
+  background-color: aliceblue;
+}
+
+.header {
+  flex: 1;
+}
+
+
+#order {
+  height: 75px;
+  width: 100px;
+  margin: 10px;
+}
+
+.products {
+  display: flex;
+  flex-direction: row;
+  height: 500px;
+
+}
+.product {
+  height: 200px;
+  width: 30%;
+  margin: 20px;
+  padding: 2px;
+  border: 1px solid black;
+}
+
+.product-description {
+  border: 1px solid black;
+  padding: 2px;
+}
+
+.product-image {
+  height: 200px;
+  background-color: grey;
+}
+
+.navigation-products {
+  background-color: beige;
+
+  display: flex;
+  flex-direction: row;
+
+}
+
+.navigation-buttons {
+  width: 50%;
+}
+
+.navigation-buttons button {
+  height: 30px;
+  width: 100px;
+  margin: 10px;
+}
+
+.navigation-pages {
+  width: 50%;
+}
+
+.navigation-total {
+  width: 10%;
+}
+

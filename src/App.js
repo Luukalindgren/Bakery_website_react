@@ -1,17 +1,16 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from './pages/landing';
+import Order from './pages/order';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Ab Yritys Oy</h1>
-      </header>
-      <main className='App-main'>
-        <h2>Customer Number</h2>
-        <input type="text" name="customerNumber" />
-        <button type="button">Continue</button> 
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/order" element={<Order />} />
+      </Routes>
+    </Router>
   );
 }
 
