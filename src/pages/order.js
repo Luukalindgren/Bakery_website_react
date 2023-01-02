@@ -21,32 +21,44 @@ const Order = () => {
                 <div className='products'>
                     <div className='product'>
                         <div className='product-image'>
-
+                            <div className='product-image-index'>
+                                <p>#1</p>
+                            </div> 
                         </div>
-                        <div className='product-descprition'>
+                        <div className='product-description'>
                             <b>Product name</b>
+                            <p style={{float: "right"}}>Checkmark for selection</p>
                             <p>Product description</p>
-                            <p>5,99€</p>
+                            <p>Rating X / 5 </p>
+                            <p style={{textAlign: "right"}}>XX,XX€</p>
                         </div>
                     </div>
                     <div className='product'>
                         <div className='product-image'>
-
+                            <div className='product-image-index'>
+                                <p>#1</p>
+                            </div> 
                         </div>
-                        <div className='product-descprition'>
+                        <div className='product-description'>
                             <b>Product name</b>
+                            <p style={{float: "right"}}>Checkmark for selection</p>
                             <p>Product description</p>
-                            <p>5,99€</p>
+                            <p>Rating X / 5 </p>
+                            <p style={{textAlign: "right"}}>XX,XX€</p>
                         </div>
                     </div>
                     <div className='product'>
                         <div className='product-image'>
-
+                            <div className='product-image-index'>
+                                <p>#1</p>
+                            </div> 
                         </div>
-                        <div className='product-descprition'>
+                        <div className='product-description'>
                             <b>Product name</b>
+                            <p style={{float: "right"}}>Checkmark for selection</p>
                             <p>Product description</p>
-                            <p>5,99€</p>
+                            <p>Rating X / 5 </p>
+                            <p style={{textAlign: "right"}}>XX,XX€</p>
                         </div>
                     </div>
                 </div> 
