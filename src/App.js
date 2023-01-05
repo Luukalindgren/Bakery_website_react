@@ -1,16 +1,16 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from './pages/landing';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landing from './pages/landing';
 import Order from './pages/order';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/order" element={<Order />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

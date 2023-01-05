@@ -1,13 +1,16 @@
-.App-header {
 
+.Landing-main {
+  display: flex;
+  justify-content: center;
 }
 
-.App-main {
-  text-align: center;
+.Landing-main-form button {
+  margin-top: 10px;
+  float: right;
 }
 
 
-.Order-header, .App-header {
+.Order-header, .Landing-header {
   display: flex;
   background-color: aliceblue;
 }
