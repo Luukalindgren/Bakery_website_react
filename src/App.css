@@ -1,3 +1,10 @@
+p {
+  font-size: small;
+}
+
+b {
+  font-size: smaller;
+}
 
 .Landing-main {
   display: flex;
@@ -15,15 +22,21 @@
   background-color: aliceblue;
 }
 
+
 .header {
   flex: 1;
   margin: 20px;
 }
 
-
-#order {
-  height: 75px;
+.basket-button {
+  display: flex;
+  align-items: center;
   width: 100px;
+}
+
+.basket-button button {
+  width: 100%;
+  height: 50%;
   margin: 10px;
 }
 
@@ -33,8 +46,8 @@
 
 }
 .product {
-  width: 30%;
-  margin: auto;
+  width: auto;
+  margin: 0.5%;
   border: 1px solid black;
 }
 
@@ -59,7 +72,6 @@
 
 .navigation-products {
   background-color: beige;
-
   display: flex;
   flex-direction: row;
 
