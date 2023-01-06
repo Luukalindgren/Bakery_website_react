@@ -6,8 +6,8 @@ function Order() {
     //States
     const [products, setProducts] = useState([]);
     const [orderStatus, setOrderStatus] = useState('');
-    const [orderPrice, setOrderPrice] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
+    const [basket, setBasket] = useState([]);
     const [productsPage, setProductsPage] = useState(1);
 
     //APIs
@@ -45,7 +45,7 @@ function Order() {
                     id: product.id,
                     name: product.name,
                     description: product.description,
-                    price: product.price,
+                    amount: product.amount,
                     rating: product.rating,
                     image: product.image,
                     selected: false
@@ -55,18 +55,29 @@ function Order() {
             setProducts(listOfProducts)})
     }
 
-    //Handle click on product
+    //Handle click on product, updates selectedProducts and Basket states
     const handleClick = (id) => {
         const newProducts = products.map(product => {
             if (product.id === id) {
                 product.selected = !product.selected;
             }
-            return product;
+            return product.selected;
         });
         setSelectedProducts(newProducts);
-        console.log(selectedProducts)
         
+        const newBasket = products.filter(product => product.selected === true);
+        setBasket(newBasket);
     }
+
+    //Calculate total price of the products in basket
+    const calculateTotal = () => {
+        let total = 0;
+        basket.forEach(product => {
+            total += product.amount;
+        })
+        return total;
+    }
+
 
 
     return (
@@ -76,29 +87,31 @@ function Order() {
                     <h2>Ab Yritys Oy</h2>
                 </div>
                 <div className='basket'>
-                    <h3>X XXX,XX €</h3>
+                    <h3>{calculateTotal()} €</h3>
                     <p>Not ordered</p>
                     
                 </div>
                 <div className='basket-button'>
-                    <button type="button" id="order" disabled={orderStatus === 'not_ordered'} >Order</button>
+                    <button type="button" id="order" disabled={calculateTotal() === 0} >Order</button>
                 </div>
             </header>
             <div className='Order-main'>
                 <div className='products'>
-                    {products.map(product => {
+                    {products.map(product => { 
                         return (
-                            <Product
-                                key={product.id}
-                                id={product.id}
-                                name={product.name}
-                                description={product.description}
-                                price={product.price}
-                                rating={product.rating}
-                                image={product.image}
-                                selected={product.selected}
-                                
-                            />
+                            <div className={product.selected ? 'product-selected' : 'product'} onClick={() => handleClick(product.id)}>
+                                <Product
+                                    key={product.id}
+                                    id={product.id}
+                                    name={product.name}
+                                    description={product.description}
+                                    amount={product.amount}
+                                    rating={product.rating}
+                                    image={product.image}
+                                    selected={product.selected}
+                                    index={product.id}
+                                />
+                            </div>
                         )})}
                 </div> 
                 <div className='navigation-products'>

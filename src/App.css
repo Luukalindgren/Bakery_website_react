@@ -51,6 +51,13 @@ b {
   border: 1px solid black;
 }
 
+.product-selected {
+  width: auto;
+  margin: 0.5%;
+  border: 2.5px solid black;
+
+}
+
 .product:hover {
   background-color: grey;
 }
@@ -96,3 +103,6 @@ b {
   width: 10%;
 }
 
+.emoji {
+  float: right;
+}
