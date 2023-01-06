@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Product from "../components/Product";
+import { NumericFormat } from "react-number-format"
 
 function Order() {
 
@@ -69,6 +70,18 @@ function Order() {
         setBasket(newBasket);
     }
 
+    const handleOrder = () => {
+        const resetSelectedProducts = products.map(product => {
+            product.selected = false;
+            return product.selected;
+        });
+        setSelectedProducts(resetSelectedProducts);
+        setBasket([]);
+        alert("Order sent!");
+
+       
+    }
+
     //Calculate total price of the products in basket
     const calculateTotal = () => {
         let total = 0;
@@ -81,21 +94,21 @@ function Order() {
 
 
     return (
-        <div className="Order">
-            <header className="Order-header">
-                <div className='header'>
+        <div className="order">
+            <header className="order-header">
+                <div className='title'>
                     <h2>Ab Yritys Oy</h2>
                 </div>
                 <div className='basket'>
-                    <h3>{calculateTotal()} €</h3>
-                    <p>Not ordered</p>
-                    
+                    <NumericFormat value={calculateTotal()} decimalScale={2} displayType="text" suffix={'€'} decimalSeparator=',' thousandSeparator=' ' className="currency-total"/>
+                    <p>{orderStatus === "not_ordered" ? "Not ordered" : "Ordered"}</p>
                 </div>
                 <div className='basket-button'>
-                    <button type="button" id="order" disabled={calculateTotal() === 0} >Order</button>
+                    <button type="button" id="order" disabled={!basket.length}
+                    onClick={handleOrder} >Order</button>
                 </div>
             </header>
-            <div className='Order-main'>
+            <div className='order-main'>
                 <div className='products'>
                     {products.map(product => { 
                         return (

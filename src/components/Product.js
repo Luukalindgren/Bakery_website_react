@@ -1,9 +1,8 @@
 import React from 'react';
 import Emoji from "./Emoji";
+import { NumericFormat } from "react-number-format"
 
 const Product = props => (
-
-
 
 <>
     <div className='product-image'>
@@ -17,7 +16,7 @@ const Product = props => (
         {props.selected ? <Emoji symbol="✓" label="checkmark"/> : null}
         <p>{props.description}</p>
         <b>{props.rating} / 5 </b>
-        <p style={{textAlign: "right"}}>{props.amount}€</p>
+        <NumericFormat value={props.amount} displayType="text" suffix={'€'} decimalSeparator=',' thousandSeparator=' ' className='currency'/>
     </div>
 </>
 );

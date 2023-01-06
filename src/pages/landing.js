@@ -5,27 +5,31 @@ function Landing() {
 
     const [customerNumber, setCustomerNumber] = useState('');
 
-    //Sulavaan sivunvaihtoon, koska windows.location.href lataa turhaan sivun uudestaan
+    //Very safe list of available customer numbers... :)
+    const customers = [ "123456" ]
+
+    //For smooth transition between pages, because windows.location.href reloads the page
     const navigate = useNavigate();
 
+    //Handle click on Continue button
     function handleContinue() {
-        if(customerNumber === "123456") {
+        if(customers.includes(customerNumber)) {
             navigate("/order");
-            console.log("Welcome 123456");
+            console.log("Welcome " + customerNumber + "!");
         } 
         else alert('Please enter correct customer number');
         }
 
 
     return (
-        <div className="Landing">
-            <header className="Landing-header">
-                <div className='header'>
+        <div className="landing">
+            <header className="landing-header">
+                <div className='title'>
                     <h2>Ab Yritys Oy</h2>
                 </div>
             </header>
-            <div className='Landing-main'>
-                <div className='Landing-main-form'>
+            <div className='landing-main'>
+                <div className='landing-main-form'>
                     <h3>Customer Number</h3>
                     <input type="text" name="customerNumber" value={customerNumber} onChange={(e) => setCustomerNumber(e.target.value)} />
                     <br/>  

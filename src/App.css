@@ -6,24 +6,40 @@ b {
   font-size: smaller;
 }
 
-.Landing-main {
+.basket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.currency {
+  float: right;
+}
+
+.currency-total {
+  font-size: larger;
+  font-weight: 700;
+}
+
+.landing-main {
   display: flex;
   justify-content: center;
 }
 
-.Landing-main-form button {
+.landing-main-form button {
   margin-top: 10px;
   float: right;
 }
 
 
-.Order-header, .Landing-header {
+.order-header, .landing-header {
   display: flex;
   background-color: aliceblue;
 }
 
 
-.header {
+.title {
   flex: 1;
   margin: 20px;
 }
