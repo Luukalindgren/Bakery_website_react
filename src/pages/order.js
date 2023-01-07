@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import Product from "../components/Product";
 import { NumericFormat } from "react-number-format"
 
+//TODO:
+// - Add indexes and emojis to the producst
+// - Change product ratings from numbers to stars X/5
+// - Make the API calls dynamic, so that the customerNumber is not hardcoded
+// - Make product listing pagiation work, max 6 products per page
+// - Make the next and previous buttons work
+// - Order error and succes alerts/messages
+// - If order status is ordered, lock product selection and order button
+// - OPTIONAL: Style the pages
+
+
+
+
 function Order() {
 
     //States
@@ -12,6 +25,7 @@ function Order() {
     const [productsPage, setProductsPage] = useState(1);
 
     //APIs
+    //CustmoerNumber should not be hardcoded
     const APIStatus = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=123456';
     const APIProducts = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=123456&skip=0&limit=6';
     const APIOrder = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery';
