@@ -32,12 +32,10 @@ b {
   float: right;
 }
 
-
 .order-header, .landing-header {
   display: flex;
   background-color: aliceblue;
 }
-
 
 .title {
   flex: 1;
@@ -61,6 +59,7 @@ b {
   height: 500px;
 
 }
+
 .product {
   width: auto;
   margin: 0.5%;
@@ -69,7 +68,7 @@ b {
 
 .product-selected {
   width: auto;
-  margin: 0.5%;
+  margin: 0.4%;
   border: 2.5px solid black;
 
 }
@@ -89,7 +88,7 @@ b {
   margin-bottom: 15px;
 }
 
-.product-image-index p, .emoji {
+.product-image-index p, .product-image-index .emoji {
   color: white;
   font-size: large;
   float: right;
@@ -122,6 +121,7 @@ b {
   width: 10%;
 }
 
-.emoji {
+.product-description .emoji {
+  font-size: large;
   float: right;
 }

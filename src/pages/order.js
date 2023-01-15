@@ -3,8 +3,8 @@ import Product from "../components/Product";
 import { NumericFormat } from "react-number-format"
 
 //TODO:
-// - Add indexes and emojis to the producst
-// - Change product ratings from numbers to stars X/5
+// ✓ Add indexes and emojis to the producst
+// ✓ Change product ratings from numbers to stars X/5
 // - Make the API calls dynamic, so that the customerNumber is not hardcoded
 // - Make product listing pagiation work, max 6 products per page
 // - Make the next and previous buttons work
