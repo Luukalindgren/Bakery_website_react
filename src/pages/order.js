@@ -31,7 +31,7 @@ function Order() {
     const APIOrder = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery';
     
 
-    //API calls
+    //API calls on every render
     useEffect(() => {
         getProducts()
         getStatus()
@@ -84,6 +84,7 @@ function Order() {
         setBasket(newBasket);
     }
 
+    //Handle order button click
     const handleOrder = () => {
         const resetSelectedProducts = products.map(product => {
             product.selected = false;
@@ -105,8 +106,25 @@ function Order() {
         return total;
     }
 
+    //Get index from products id
+    const getIndex = (props) => {
+        let index;
+        for(let i = 3; i < props.id.length; i++) {
+            if(props.id[i] !== "0") {
+                index = props.id.slice(i);
+                break;
+            }
+        }
+        //FizzBuzz logic
+        if(Number(index) % 15 === 0) return "😍"
+        else if(Number(index) % 5 === 0) return "💖"
+        else if(Number(index) % 3 === 0) return "👍"
+        else return ('#' + index)
+    }
+    
 
 
+    //Render
     return (
         <div className="order">
             <header className="order-header">
@@ -136,7 +154,7 @@ function Order() {
                                     rating={product.rating}
                                     image={product.image}
                                     selected={product.selected}
-                                    index={product.id}
+                                    index={getIndex(product)}
                                 />
                             </div>
                         )})}

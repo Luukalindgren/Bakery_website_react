@@ -75,22 +75,25 @@ b {
 }
 
 .product:hover {
-  background-color: grey;
+  background-color: lightgrey;
 }
 
 .product-description {
-  padding: 20px;
+  padding: 0 10px 10px 10px;
 }
+
 
 .product-image {
   height: 200px;
-  background-color: lightgrey;
+  background-color: grey;
   margin-bottom: 15px;
 }
 
-.product-image-index {
+.product-image-index p, .emoji {
+  color: white;
+  font-size: large;
   float: right;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .navigation-products {
