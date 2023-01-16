@@ -83,17 +83,36 @@ b {
 
 
 .product-image {
+  position: relative;
   height: 200px;
   background-color: grey;
   margin-bottom: 15px;
 }
 
-.product-image-index p, .product-image-index .emoji {
+.product-image > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.product-image-index p {
+  position: absolute;
+  right: 8px;
   color: white;
   font-size: large;
   float: right;
   margin-right: 10px;
 }
+
+.product-image-index .emoji {
+  position: absolute;
+  top: 16px;
+  right: 8px;
+  color: white;
+  font-size: large;
+  float: right;
+  margin-right: 10px;
+} 
 
 .navigation-products {
   background-color: beige;

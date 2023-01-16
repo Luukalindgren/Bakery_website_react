@@ -32,7 +32,7 @@ function Order() {
     const openPopup = () => ref.current.open();
 
     //APIs
-    //CustmoerNumber should not be hardcoded
+    //CustomerNumber should not be hardcoded!!!
     const APIStatus = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=123456';
     const APIProducts = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=123456&skip=0&limit=6';
     const APIOrder = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery';
@@ -54,7 +54,6 @@ function Order() {
             setOrderStatus(response.data[0].status)
         })
     }
-
 
     //Iterate through API JSON and create an array of objects to be added to state
     const getProducts = () => {

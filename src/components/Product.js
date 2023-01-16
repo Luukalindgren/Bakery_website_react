@@ -7,10 +7,10 @@ import StarRatings from 'react-star-ratings';
 const Product = (props) => (
     <>
         <div className='product-image'>
-            <img src={props.image} alt={props.name} />
             <div className='product-image-index'>
                 {/\d/.test(props.index) ? <p>{props.index}</p> : <Emoji symbol={props.index} label="index"/>}
-            </div> 
+            </div>
+            <img src={"https://bakery-4ea18f31.digi.loikka.dev" + props.image} alt={props.name} />
         </div>
         <div className='product-description'>
             <b>{props.name}</b>
