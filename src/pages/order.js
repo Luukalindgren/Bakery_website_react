@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Product from "../components/Product";
 import { NumericFormat } from "react-number-format"
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 //TODO:
 // ✓ Add indexes and emojis to the producst
 // ✓ Change product ratings from numbers to stars X/5
-// - Make the API calls dynamic, so that the customerNumber is not hardcoded
+// ✓ Make product ordering actually do something
 // - Make product listing pagiation work, max 6 products per page
 // - Make the next and previous buttons work
-// - Order error and succes alerts/messages
+// ✓ Order error and succes alerts/messages
 // - If order status is ordered, lock product selection and order button
+// - Make the API calls dynamic, so that the customerNumber is not hardcoded
 // - OPTIONAL: Style the pages
 
 
@@ -23,6 +26,10 @@ function Order() {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [basket, setBasket] = useState([]);
     const [productsPage, setProductsPage] = useState(1);
+
+    //Popup
+    const ref = useRef();
+    const openPopup = () => ref.current.open();
 
     //APIs
     //CustmoerNumber should not be hardcoded
@@ -70,6 +77,20 @@ function Order() {
             setProducts(listOfProducts)})
     }
 
+    //Formats selected produtcs so that fetch POST can be made with it
+    const stringifyOrder = () => {
+        const ord = { customerNumber: "123456", products: basket.map(product => {return product.id})}
+        return JSON.stringify(ord);
+    }
+
+    //POST request to API for making an order
+    const postOrder = new Request(APIOrder, {
+        method: 'POST',
+        body: stringifyOrder(),
+        headers: new Headers({
+            'Content-Type': 'application/json'})
+    })
+
     //Handle click on product, updates selectedProducts and Basket states
     const handleClick = (id) => {
         const newProducts = products.map(product => {
@@ -86,15 +107,17 @@ function Order() {
 
     //Handle order button click
     const handleOrder = () => {
+        fetch(postOrder)
+            .then(response => response.json())
+            .then(response => console.log(response))
+
         const resetSelectedProducts = products.map(product => {
             product.selected = false;
             return product.selected;
         });
         setSelectedProducts(resetSelectedProducts);
         setBasket([]);
-        alert("Order sent!");
-
-       
+        openPopup();
     }
 
     //Calculate total price of the products in basket
@@ -138,15 +161,17 @@ function Order() {
                 <div className='basket-button'>
                     <button type="button" id="order" disabled={!basket.length}
                     onClick={handleOrder} >Order</button>
+                    <Popup ref={ref}>
+                        {orderStatus !== "not_ordered" ? <span> Order placement failed! </span> : <span> Order placement succeeded! </span>}
+                    </Popup>
                 </div>
             </header>
             <div className='order-main'>
                 <div className='products'>
                     {products.map(product => { 
                         return (
-                            <div className={product.selected ? 'product-selected' : 'product'} onClick={() => handleClick(product.id)}>
+                            <div className={product.selected ? 'product-selected' : 'product'} onClick={() => handleClick(product.id)} key={product.id}>
                                 <Product
-                                    key={product.id}
                                     id={product.id}
                                     name={product.name}
                                     description={product.description}

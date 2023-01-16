@@ -125,3 +125,9 @@ b {
   font-size: large;
   float: right;
 }
+
+.popup-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

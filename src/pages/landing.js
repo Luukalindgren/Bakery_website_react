@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
 
 function Landing() {
 
     const [customerNumber, setCustomerNumber] = useState('');
+
+    //Popup
+    const ref = useRef();
+    const openPopup = () => ref.current.open();
 
     //Very safe list of available customer numbers... :)
     const customers = [ "123456" ]
@@ -12,13 +19,13 @@ function Landing() {
     const navigate = useNavigate();
 
     //Handle click on Continue button
-    function handleContinue() {
+    const handleContinue = () => {
         if(customers.includes(customerNumber)) {
             navigate("/order");
             console.log("Welcome " + customerNumber + "!");
         } 
-        else alert('Please enter correct customer number');
-        }
+        else openPopup();
+    }
 
 
     return (
@@ -34,6 +41,9 @@ function Landing() {
                     <input type="text" name="customerNumber" value={customerNumber} onChange={(e) => setCustomerNumber(e.target.value)} />
                     <br/>  
                     <button type="submit" onClick={handleContinue} >Continue</button> 
+                    <Popup ref={ref}>
+                        <span>Customer Number not found!</span>
+                    </Popup>
                 </div>
             </div>
         </div>
