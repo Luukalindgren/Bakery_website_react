@@ -16,7 +16,9 @@ const Product = (props) => (
             <b>{props.name}</b>
             {props.selected ? <Emoji symbol="✓" label="checkmark"/> : null}
             <p>{props.description}</p>
-            <StarRatings starRatedColor='black' rating={props.rating} starDimension='15px' starSpacing='0px' numberOfStars={5} name='rating'/>
+            <div className='product-rating'>
+                <StarRatings starRatedColor='black' rating={props.rating} starDimension='15px' starSpacing='0px' numberOfStars={5} name='rating'/>
+            </div>
             <NumericFormat value={props.amount} displayType="text" suffix={'€'} decimalSeparator=',' thousandSeparator=' ' className='currency'/>
         </div>
     </>

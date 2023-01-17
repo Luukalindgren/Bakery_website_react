@@ -13,10 +13,6 @@ b {
   justify-content: center;
 }
 
-.currency {
-  float: right;
-}
-
 .currency-total {
   font-size: larger;
   font-weight: 700;
@@ -34,7 +30,11 @@ b {
 
 .order-header, .landing-header {
   display: flex;
-  background-color: aliceblue;
+  background-color: beige;
+}
+
+.order-main {
+  background-color: lightgrey;
 }
 
 .title {
@@ -61,12 +61,15 @@ b {
 }
 
 .product {
+  position:relative;
   width: auto;
   margin: 0.5%;
   border: 1px solid black;
+  background-color: white;
 }
 
 .product-selected {
+  position: relative;
   width: auto;
   margin: 0.4%;
   border: 2.5px solid black;
@@ -89,7 +92,7 @@ b {
   margin-bottom: 15px;
 }
 
-.product-image > img {
+.product-image img {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -97,22 +100,34 @@ b {
 
 .product-image-index p {
   position: absolute;
-  right: 8px;
+  right: 18px;
   color: white;
   font-size: large;
   float: right;
-  margin-right: 10px;
+
 }
 
 .product-image-index .emoji {
   position: absolute;
   top: 16px;
-  right: 8px;
+  right: 18px;
   color: white;
   font-size: large;
   float: right;
-  margin-right: 10px;
 } 
+
+.product-rating {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.currency {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  float: right;
+}
 
 .navigation-products {
   background-color: beige;

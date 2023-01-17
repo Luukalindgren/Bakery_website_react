@@ -37,22 +37,17 @@ function Order() {
     const APIProducts = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=123456&skip=0&limit=6';
     const APIOrder = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery';
     
-
     //API calls on every render
     useEffect(() => {
         getProducts()
         getStatus()
     }, []);
     
-
     //Order status from API
     const getStatus = () => {
         fetch(APIStatus)
         .then(response => response.json())
-        .then(response => {
-            //console.log(response.data[0])
-            setOrderStatus(response.data[0].status)
-        })
+        .then(response => setOrderStatus(response.data[0].status))
     }
 
     //Iterate through API JSON and create an array of objects to be added to state
