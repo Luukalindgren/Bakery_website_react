@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import Product from "../components/Product";
 import { NumericFormat } from "react-number-format"
 import Popup from 'reactjs-popup';
@@ -8,50 +9,51 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Add indexes and emojis to the producst
 // ✓ Change product ratings from numbers to stars X/5
 // ✓ Make product ordering actually do something
+// ✓ Order error and succes alerts/messages
+// ✓ Make the API calls dynamic, so that the customerNumber is not hardcoded
 // - Make product listing pagiation work, max 6 products per page
 // - Make the next and previous buttons work
-// ✓ Order error and succes alerts/messages
 // - If order status is ordered, lock product selection and order button
-// - Make the API calls dynamic, so that the customerNumber is not hardcoded
-// - OPTIONAL: Style the pages
 
 
 
 
-function Order() {
+
+function Order(props) {
 
     //States
+    const location = useLocation();
+    const [customerNumber] = useState(location.state.customerNumber);
     const [products, setProducts] = useState([]);
     const [orderStatus, setOrderStatus] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [basket, setBasket] = useState([]);
     const [productsPage, setProductsPage] = useState(1);
+    const [forceRender, setForceRender] = useState(false);
 
     //Popup
     const ref = useRef();
     const openPopup = () => ref.current.open();
 
-    //APIs
-    //CustomerNumber should not be hardcoded!!!
-    const APIStatus = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=123456';
-    const APIProducts = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=123456&skip=0&limit=6';
-    const APIOrder = 'https://bakery-4ea18f31.digi.loikka.dev/v1/bakery';
-    
-    //API calls on every render
+
+    //API calls on component mount, or customer number change
+    //This is the problem for the order status not updating when order is placed!!
     useEffect(() => {
-        getProducts()
-        getStatus()
-    }, []);
+        getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
+        getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=0&limit=6')
+    }, [customerNumber, forceRender]);
     
     //Order status from API
-    const getStatus = () => {
+    const getStatus = (APIStatus) => {
         fetch(APIStatus)
         .then(response => response.json())
-        .then(response => setOrderStatus(response.data[0].status))
+        .then(response => {
+            setOrderStatus(response.data[0].status); 
+            return response.data[0].status})
     }
 
     //Iterate through API JSON and create an array of objects to be added to state
-    const getProducts = () => {
+    const getProducts = (APIProducts) => {
         const listOfProducts = [];
         fetch(APIProducts)
         .then(response => response.json())
@@ -71,14 +73,20 @@ function Order() {
             setProducts(listOfProducts)})
     }
 
+    //Stupid way to force rerender, used to update order status, but still wont work as intended
+    const forceRenderFunction = () => {
+        const temp = !forceRender;
+        setForceRender(temp);
+    }
+
     //Formats selected produtcs so that fetch POST can be made with it
     const stringifyOrder = () => {
-        const ord = { customerNumber: "123456", products: basket.map(product => {return product.id})}
+        const ord = { customerNumber: customerNumber, products: basket.map(product => {return product.id})}
         return JSON.stringify(ord);
     }
 
     //POST request to API for making an order
-    const postOrder = new Request(APIOrder, {
+    const postOrder = new Request('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery', {
         method: 'POST',
         body: stringifyOrder(),
         headers: new Headers({
@@ -112,7 +120,9 @@ function Order() {
         setSelectedProducts(resetSelectedProducts);
         setBasket([]);
         openPopup();
+        forceRenderFunction();
     }
+
 
     //Calculate total price of the products in basket
     const calculateTotal = () => {
@@ -138,7 +148,7 @@ function Order() {
         else if(Number(index) % 3 === 0) return "👍"
         else return ('#' + index)
     }
-    
+
 
 
     //Render
@@ -156,7 +166,7 @@ function Order() {
                     <button type="button" id="order" disabled={!basket.length}
                     onClick={handleOrder} >Order</button>
                     <Popup ref={ref}>
-                        {orderStatus !== "not_ordered" ? <span> Order placement failed! </span> : <span> Order placement succeeded! </span>}
+                        <span>{orderStatus !== "not_ordered" ?  "Order placement failed!"  : "Order placement succeeded!"}</span>
                     </Popup>
                 </div>
             </header>

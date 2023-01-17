@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-
 function Landing() {
 
+    //States
     const [customerNumber, setCustomerNumber] = useState('');
 
     //Popup
@@ -21,13 +21,14 @@ function Landing() {
     //Handle click on Continue button
     const handleContinue = () => {
         if(customers.includes(customerNumber)) {
-            navigate("/order");
             console.log("Welcome " + customerNumber + "!");
+            navigate("/order", { state: { customerNumber: customerNumber}});
         } 
         else openPopup();
     }
 
 
+    //Render
     return (
         <div className="landing">
             <header className="landing-header">
