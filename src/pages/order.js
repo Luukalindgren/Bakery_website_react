@@ -11,13 +11,11 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Make product ordering actually do something
 // ✓ Order error and succes alerts/messages
 // ✓ Make the API calls dynamic, so that the customerNumber is not hardcoded
-// - Make product listing pagiation work, max 6 products per page
-// - Make the next and previous buttons work
+// ✓ Make product listing pagiation work, max 6 products per page
+// ✓ Make the next and previous buttons work
 // - If order status is ordered, lock product selection and order button
-
-// Plan for product pages: 
-// Change products -state to nested list, where each childlist has max 6 products, and the parent
-// list has the amount of pages. Then use the productsPage -state to determine which page is shown.
+// - Product selection does not work with pagiation
+// - Total amount of products and pages are hardcoded
 
 
 function Order(props) {
@@ -30,6 +28,7 @@ function Order(props) {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [basket, setBasket] = useState([]);
     const [productsPage, setProductsPage] = useState(1);
+    const [skippedProducts, setSkippedProducts] = useState(0);
     const [forceRender, setForceRender] = useState(false);
 
     //Popup
@@ -37,12 +36,12 @@ function Order(props) {
     const openPopup = () => ref.current.open();
 
 
-    //API calls on component mount, or customer number change
+    //API calls on component mount, customer number change and page change and forceRender
     //This is the problem for the order status not updating when order is placed!!
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
-        getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=0&limit=6')
-    }, [customerNumber, forceRender]);
+        getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
+    }, [customerNumber, skippedProducts, forceRender]);
     
     //Order status from API
     const getStatus = (APIStatus) => {
@@ -191,16 +190,18 @@ function Order(props) {
                 </div> 
                 <div className='navigation-products'>
                     <div className='navigation-buttons'>
-                        <button type="button" id="previous" onClick={() => setProductsPage(productsPage - 1)
-                        }>Previous</button>
-                        <button type="button" id="next" onClick={() => setProductsPage(productsPage + 1)
-                        } >Next</button>
+                        <button type="button" id="previous" disabled={productsPage === 1} onClick={() => {
+                            setProductsPage(productsPage - 1); setSkippedProducts(skippedProducts - 6)}}
+                            >Previous</button>
+                        <button type="button" id="next" disabled={productsPage === 7} onClick={() => {
+                            setProductsPage(productsPage + 1); setSkippedProducts(skippedProducts + 6)}}
+                            >Next</button>
                     </div>
                     <div className='navigation-pages'>
-                        <h4>Page {productsPage} / {products.length / 6}</h4>
+                        <h4>Page {productsPage} / 7</h4>
                     </div>
                     <div className='navigation-total'>
-                        <h4>Total of {products.length} products</h4>
+                        <h4>Total of 42 products</h4>
                     </div>
                 </div>
             </div>
