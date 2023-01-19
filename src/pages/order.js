@@ -15,8 +15,9 @@ import 'reactjs-popup/dist/index.css';
 // - Make the next and previous buttons work
 // - If order status is ordered, lock product selection and order button
 
-
-
+// Plan for product pages: 
+// Change products -state to nested list, where each childlist has max 6 products, and the parent
+// list has the amount of pages. Then use the productsPage -state to determine which page is shown.
 
 
 function Order(props) {
