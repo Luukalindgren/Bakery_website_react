@@ -10,3 +10,4 @@ Ajaminen:
 'npm start'
 4. Jos selain ei aukea itsestään, siirry osoitteeseen: 
 'http://localhost:3000/'
+5. Ainoa toimiva asiakasnumero on: 123456
