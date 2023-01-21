@@ -18,12 +18,13 @@ import 'reactjs-popup/dist/index.css';
 // - Total amount of products and pages are hardcoded
 
 
-function Order(props) {
+function Order() {
 
     //States
     const location = useLocation();
     const [customerNumber] = useState(location.state.customerNumber);
     const [products, setProducts] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
     const [orderStatus, setOrderStatus] = useState('');
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [basket, setBasket] = useState([]);
@@ -41,6 +42,7 @@ function Order(props) {
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
         getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
+        getAllProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + 0 + ' &limit=' + 0)
     }, [customerNumber, skippedProducts, forceRender]);
     
     //Order status from API
@@ -71,6 +73,14 @@ function Order(props) {
                 listOfProducts.push(productObject);
             });
             setProducts(listOfProducts)})
+    }
+
+    const getAllProducts = (APIProducts) => {
+        const listOfProducts = [];
+        fetch(APIProducts)
+        .then(response => response.json())
+        .then(response => {
+            setAllProducts(response.metadata.total)})
     }
 
     //Stupid way to force rerender, used to update order status, but still wont work as intended
@@ -190,18 +200,18 @@ function Order(props) {
                 </div> 
                 <div className='navigation-products'>
                     <div className='navigation-buttons'>
-                        <button type="button" id="previous" disabled={productsPage === 1} onClick={() => {
-                            setProductsPage(productsPage - 1); setSkippedProducts(skippedProducts - 6)}}
+                        <button type="button" id="previous" disabled={productsPage <= 1} onClick={() => {
+                            setProductsPage(prevPage => prevPage - 1); setSkippedProducts(prevSkipped => prevSkipped - 6)}}
                             >Previous</button>
                         <button type="button" id="next" disabled={productsPage === 7} onClick={() => {
-                            setProductsPage(productsPage + 1); setSkippedProducts(skippedProducts + 6)}}
+                            setProductsPage(prevPage => prevPage + 1); setSkippedProducts(prevSkipped => prevSkipped + 6)}}
                             >Next</button>
                     </div>
                     <div className='navigation-pages'>
-                        <h4>Page {productsPage} / 7</h4>
+                        <h4>Page {productsPage} / {allProducts / products.length}</h4>
                     </div>
                     <div className='navigation-total'>
-                        <h4>Total of 42 products</h4>
+                        <h4>Total of {allProducts} products</h4>
                     </div>
                 </div>
             </div>
