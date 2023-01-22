@@ -9,11 +9,10 @@ function Landing() {
     const [customerNumber, setCustomerNumber] = useState('');
     const [orderStatus, setOrderStatus] = useState('');
 
-
-    //API calls on component mount, customer number change, may be bad way to do this, because unnecessary API calls...
+    //API calls on customer number change, may be bad way to do this, because unnecessary API calls...
     //Didn't find other way to update customerNumber state before clicking 'Continue' button (Asyncronous problem?)
     useEffect(() => {
-        getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber);
+        if(customerNumber.length === 6) getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber);
     }, [customerNumber]);
 
     //Popup

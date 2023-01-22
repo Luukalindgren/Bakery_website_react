@@ -13,7 +13,7 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Make the API calls dynamic, so that the customerNumber is not hardcoded
 // ✓ Make product listing pagiation work, max 6 products per page
 // ✓ Make the next and previous buttons work
-// - If order status is ordered, lock product selection and order button
+// ✓ If order status is ordered, lock product selection and order button
 // - Product selection does not work with pagiation
 // ✓ Total amount of products and pages are hardcoded
 
@@ -166,7 +166,7 @@ function Order() {
                     <p>{orderStatus === "not_ordered" ? "Not ordered" : "Ordered"}</p>
                 </div>
                 <div className='basket-button'>
-                    <button type="button" id="order" disabled={!basket.length}
+                    <button type="button" id="order" disabled={!basket.length || orderStatus !== "not_ordered"}
                     onClick={handleOrder} >Order</button>
                     <Popup ref={ref}>
                         <span>{orderStatus !== "not_ordered" ?  "Order placement failed!"  : "Order placement succeeded!"}</span>
@@ -174,7 +174,7 @@ function Order() {
                 </div>
             </header>
             <div className='order-main'>
-                <div className='products'>
+                <div className={`products${orderStatus === "ordered" ? "-disabled" : ""}`}>
                     {products.map(product => { 
                         return (
                             <div className={product.selected ? 'product-selected' : 'product'} onClick={() => handleClick(product.id)} key={product.id}>

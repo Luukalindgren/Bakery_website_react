@@ -60,6 +60,13 @@ b {
 
 }
 
+.products-disabled {
+  pointer-events: none;
+  display: flex;
+  height: 500px;
+  opacity: 0.4;
+}
+
 .product {
   position:relative;
   flex: 1;
