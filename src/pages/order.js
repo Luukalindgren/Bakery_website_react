@@ -15,7 +15,7 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Make the next and previous buttons work
 // - If order status is ordered, lock product selection and order button
 // - Product selection does not work with pagiation
-// - Total amount of products and pages are hardcoded
+// ✓ Total amount of products and pages are hardcoded
 
 
 function Order() {
@@ -42,7 +42,6 @@ function Order() {
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
         getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
-        getAllProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + 0 + ' &limit=' + 0)
     }, [customerNumber, skippedProducts, forceRender]);
     
     //Order status from API
@@ -60,6 +59,9 @@ function Order() {
         fetch(APIProducts)
         .then(response => response.json())
         .then(response => { 
+            //Amount of products in the API
+            setAllProducts(response.metadata.total);
+            //Iterate through limited amount of products
             response.data.forEach(product => {
                 const productObject = {
                     id: product.id,
@@ -75,13 +77,6 @@ function Order() {
             setProducts(listOfProducts)})
     }
 
-    const getAllProducts = (APIProducts) => {
-        const listOfProducts = [];
-        fetch(APIProducts)
-        .then(response => response.json())
-        .then(response => {
-            setAllProducts(response.metadata.total)})
-    }
 
     //Stupid way to force rerender, used to update order status, but still wont work as intended
     const forceRenderFunction = () => {
@@ -158,8 +153,6 @@ function Order() {
         else if(Number(index) % 3 === 0) return "👍"
         else return ('#' + index)
     }
-
-
 
     //Render
     return (
