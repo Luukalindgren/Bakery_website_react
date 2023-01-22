@@ -42,7 +42,9 @@ function Order() {
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
         getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
-    }, [customerNumber, skippedProducts, forceRender]);
+    }, [customerNumber, productsPage, forceRender]);
+    
+
     
     //Order status from API
     const getStatus = (APIStatus) => {
@@ -50,7 +52,7 @@ function Order() {
         .then(response => response.json())
         .then(response => {
             setOrderStatus(response.data[0].status); 
-            return response.data[0].status})
+            })
     }
 
     //Iterate through API JSON and create an array of objects to be added to state
@@ -78,10 +80,9 @@ function Order() {
     }
 
 
-    //Stupid way to force rerender, used to update order status, but still wont work as intended
+    //Stupid way to force rerender, used to update order status, used when popup is closed
     const forceRenderFunction = () => {
-        const temp = !forceRender;
-        setForceRender(temp);
+        setForceRender(prevValue => !prevValue);
     }
 
     //Formats selected produtcs so that fetch POST can be made with it
@@ -168,7 +169,7 @@ function Order() {
                 <div className='basket-button'>
                     <button type="button" id="order" disabled={!basket.length || orderStatus !== "not_ordered"}
                     onClick={handleOrder} >Order</button>
-                    <Popup ref={ref}>
+                    <Popup ref={ref} onClose={forceRenderFunction}>
                         <span>{orderStatus !== "not_ordered" ?  "Order placement failed!"  : "Order placement succeeded!"}</span>
                     </Popup>
                 </div>
