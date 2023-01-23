@@ -14,8 +14,11 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Make product listing pagiation work, max 6 products per page
 // ✓ Make the next and previous buttons work
 // ✓ If order status is ordered, lock product selection and order button
-// - Product selection does not work with pagiation
 // ✓ Total amount of products and pages are hardcoded
+// - Product selection does not work with pagiation + save the selected products after order, to see what is been ordered
+// - Make the site responsive
+// - Format and clean the code
+
 
 
 function Order() {
@@ -42,9 +45,18 @@ function Order() {
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
         getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
-    }, [customerNumber, productsPage, forceRender]);
+        console.log("UseEffect 1")
+    }, [customerNumber, skippedProducts, forceRender]);
     
-
+    //THIS IS PROBLEMATIC, NEEDS TO BE FIXED!! PROBABLY BETTER WITH .FILTER()
+    useEffect(() => {
+        const newBasket = [...basket];
+        products.forEach(product => {
+            if (selectedProducts.includes(product.id) && !newBasket.includes(product)) newBasket.push(product);
+        });
+        setBasket(newBasket);
+        console.log(basket)
+    }, [selectedProducts]);
     
     //Order status from API
     const getStatus = (APIStatus) => {
@@ -72,7 +84,7 @@ function Order() {
                     amount: product.amount,
                     rating: product.rating,
                     image: product.image,
-                    selected: false
+                    selected: selectedProducts.includes(product.id) ? true : false
                 }
                 listOfProducts.push(productObject);
             });
@@ -101,16 +113,16 @@ function Order() {
 
     //Handle click on product, updates selectedProducts and Basket states
     const handleClick = (id) => {
-        const newProducts = products.map(product => {
+        const newProducts = [...selectedProducts];
+        products.forEach(product => {
             if (product.id === id) {
+                //Toggle product selection for visuals
                 product.selected = !product.selected;
-            }
-            return product.selected;
+                //If product is already selected, remove it from array, else add it to array
+                (selectedProducts.includes(product.id)) ? newProducts.splice(selectedProducts.indexOf(product.id), 1) : newProducts.push(product.id);
+            } 
         });
         setSelectedProducts(newProducts);
-        
-        const newBasket = products.filter(product => product.selected === true);
-        setBasket(newBasket);
     }
 
     //Handle order button click
@@ -128,7 +140,6 @@ function Order() {
         openPopup();
         forceRenderFunction();
     }
-
 
     //Calculate total price of the products in basket
     const calculateTotal = () => {
