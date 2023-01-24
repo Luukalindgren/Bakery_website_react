@@ -28,7 +28,8 @@ b {
   float: right;
 }
 
-.order-header, .landing-header {
+.order-header,
+.landing-header {
   display: flex;
   background-color: beige;
   height: 7rem;
@@ -60,12 +61,13 @@ b {
 .products-disabled {
   pointer-events: none;
   display: flex;
-  height: 500px;
+  height: 550px;
+  margin: 1.5%;
   opacity: 0.4;
 }
 
 .product {
-  position:relative;
+  position: relative;
   flex: 1;
   margin: 0.7%;
   width: auto;
@@ -116,7 +118,6 @@ b {
   color: white;
   font-size: large;
   float: right;
-
 }
 
 .product-image-index .emoji {
@@ -126,13 +127,12 @@ b {
   color: white;
   font-size: large;
   float: right;
-} 
+}
 
 .product-rating {
   position: absolute;
   bottom: 10px;
   left: 10px;
-
 }
 
 .price {
@@ -148,14 +148,12 @@ b {
   position: absolute;
   bottom: 0;
   width: 100%;
-
 }
 
 .navigation-buttons {
   flex: 1;
   margin: 10px 0 0 10px;
   text-align: start;
-  
 }
 
 .navigation-buttons button {
@@ -188,7 +186,7 @@ b {
   }
 
   .product {
-    margin: 5%
+    margin: 5%;
   }
 
   .product-selected {
@@ -208,7 +206,6 @@ b {
     position: absolute;
     bottom: 0;
   }
-
 }
 
 @media (max-width: 770px) {
