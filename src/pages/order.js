@@ -15,9 +15,10 @@ import 'reactjs-popup/dist/index.css';
 // ✓ Make the next and previous buttons work
 // ✓ If order status is ordered, lock product selection and order button
 // ✓ Total amount of products and pages are hardcoded
-// - Product selection does not work with pagiation + save the selected products after order, to see what is been ordered
+// ✓ Product selection does not work with pagiation + save the selected products after order, to see what is been ordered
 // - Make the site responsive
 // - Format and clean the code
+// - BASKET DOES NOT WORK RIGHT IF RECLICKED ON PRODUCT AFTER PAGE CHANGE!
 
 
 
@@ -39,24 +40,30 @@ function Order() {
     const ref = useRef();
     const openPopup = () => ref.current.open();
 
-
     //API calls on component mount, customer number change and page change and forceRender
     //This is the problem for the order status not updating when order is placed!!
     useEffect(() => {
         getStatus('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery?customerNumber=' +  customerNumber)
         getProducts('https://bakery-4ea18f31.digi.loikka.dev/v1/bakery/products?customerNumber=' + customerNumber + '&skip=' + skippedProducts + ' &limit=' + 6)
-        console.log("UseEffect 1")
     }, [customerNumber, skippedProducts, forceRender]);
     
-    //THIS IS PROBLEMATIC, NEEDS TO BE FIXED!! PROBABLY BETTER WITH .FILTER()
+    //Reset selected products and basket after ordered and order status is updated back to not_ordered
     useEffect(() => {
-        const newBasket = [...basket];
-        products.forEach(product => {
-            if (selectedProducts.includes(product.id) && !newBasket.includes(product)) newBasket.push(product);
-        });
-        setBasket(newBasket);
-        console.log(basket)
-    }, [selectedProducts]);
+        if(orderStatus === 'not_ordered') {
+            setSelectedProducts([]);
+            setBasket([]);
+        }
+    }, [orderStatus]);
+
+    //THIS IS PROBLEMATIC, NEEDS TO BE FIXED!! PROBABLY BETTER WITH .FILTER()
+    // useEffect(() => {
+    //     const newBasket = [...basket];
+    //     products.forEach(product => {
+    //         if (selectedProducts.includes(product.id) && !newBasket.includes(product)) newBasket.push(product);
+    //     });
+    //     setBasket(newBasket);
+    //     console.log(basket)
+    // }, [selectedProducts, productsPage]);
     
     //Order status from API
     const getStatus = (APIStatus) => {
@@ -111,18 +118,24 @@ function Order() {
             'Content-Type': 'application/json'})
     })
 
-    //Handle click on product, updates selectedProducts and Basket states
+    //Handle click on product, updates selectedProducts 
     const handleClick = (id) => {
         const newProducts = [...selectedProducts];
+        const newBasket = [...basket];
         products.forEach(product => {
             if (product.id === id) {
                 //Toggle product selection for visuals
                 product.selected = !product.selected;
                 //If product is already selected, remove it from array, else add it to array
                 (selectedProducts.includes(product.id)) ? newProducts.splice(selectedProducts.indexOf(product.id), 1) : newProducts.push(product.id);
+                //If product is already selected, remove it from basket, else add it to basket
+                (basket.includes(product)) ? newBasket.splice(basket.indexOf(product), 1) : newBasket.push(product);
             } 
         });
         setSelectedProducts(newProducts);
+        setBasket(newBasket);
+        console.log("Selected products: " + selectedProducts);
+        console.log("Basket: " + JSON.stringify(basket));
     }
 
     //Handle order button click
@@ -131,11 +144,11 @@ function Order() {
             .then(response => response.json())
             .then(response => console.log(response))
 
-        const resetSelectedProducts = products.map(product => {
-            product.selected = false;
-            return product.selected;
-        });
-        setSelectedProducts(resetSelectedProducts);
+        // const resetSelectedProducts = products.map(product => {
+        //     product.selected = false;
+        //     return product.selected;
+        // });
+        //setSelectedProducts(resetSelectedProducts);
         setBasket([]);
         openPopup();
         forceRenderFunction();
