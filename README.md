@@ -1,5 +1,3 @@
-!!KESKEN!!
-
 Fiktiiviselle leivontayritykselle verkkokauppasivu, johon kirjaudutaan asiakasnumerolla. Kirjautumisen jälkeen voidaan valita halutut tuotteet ja tilata ne.
 
 Toteutettu Reactilla.
