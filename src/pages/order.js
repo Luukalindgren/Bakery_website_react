@@ -55,6 +55,7 @@ function Order() {
         }
     }, [orderStatus]);
 
+    //Update basket when selected products change
     //THIS IS PROBLEMATIC, NEEDS TO BE FIXED!! PROBABLY BETTER WITH .FILTER()
     // useEffect(() => {
     //     const newBasket = [...basket];
@@ -97,7 +98,6 @@ function Order() {
             });
             setProducts(listOfProducts)})
     }
-
 
     //Stupid way to force rerender, used to update order status, used when popup is closed
     const forceRenderFunction = () => {
@@ -216,21 +216,21 @@ function Order() {
                             </div>
                         )})}
                 </div> 
-                <div className='navigation-products'>
-                    <div className='navigation-buttons'>
-                        <button type="button" id="previous" disabled={productsPage <= 1} onClick={() => {
-                            setProductsPage(prevPage => prevPage - 1); setSkippedProducts(prevSkipped => prevSkipped - 6)}}
-                            >Previous</button>
-                        <button type="button" id="next" disabled={productsPage === 7} onClick={() => {
-                            setProductsPage(prevPage => prevPage + 1); setSkippedProducts(prevSkipped => prevSkipped + 6)}}
-                            >Next</button>
-                    </div>
-                    <div className='navigation-pages'>
-                        <h4>Page {productsPage} / {allProducts / products.length}</h4>
-                    </div>
-                    <div className='navigation-total'>
-                        <h4>Total of {allProducts} products</h4>
-                    </div>
+            </div>
+            <div className='navigation-products'>
+                <div className='navigation-buttons'>
+                    <button type="button" id="previous" disabled={productsPage <= 1} onClick={() => {
+                        setProductsPage(prevPage => prevPage - 1); setSkippedProducts(prevSkipped => prevSkipped - 6)}}
+                        >Previous</button>
+                    <button type="button" id="next" disabled={productsPage === 7} onClick={() => {
+                        setProductsPage(prevPage => prevPage + 1); setSkippedProducts(prevSkipped => prevSkipped + 6)}}
+                        >Next</button>
+                </div>
+                <div className='navigation-pages'>
+                    <h4>Page {productsPage} / {allProducts / products.length}</h4>
+                </div>
+                <div className='navigation-total'>
+                    <h4>Total of {allProducts} products</h4>
                 </div>
             </div>
         </div>
